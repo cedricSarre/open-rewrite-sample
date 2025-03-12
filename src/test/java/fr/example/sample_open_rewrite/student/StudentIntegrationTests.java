@@ -8,30 +8,27 @@ import fr.example.sample_open_rewrite.establishment.EstablishmentServiceInterfac
 import fr.example.sample_open_rewrite.establishment.internal.entity.Establishment;
 import fr.example.sample_open_rewrite.student.spi.dto.StudentDTO;
 import io.restassured.RestAssured;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = SampleOpenRewriteApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class StudentIntegrationTests {
 
@@ -58,17 +55,17 @@ public class StudentIntegrationTests {
         registry.add("spring.sql.init.mode", () -> "always");
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         postgreSQLContainer.start();
     }
 
-    @AfterClass
+    @AfterAll
     public static void afterClass() {
         postgreSQLContainer.stop();
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         RestAssured.baseURI = "http://localhost:" + serverPort;
     }
@@ -109,31 +106,34 @@ public class StudentIntegrationTests {
                 .extract()
                 .as(StudentDTO.class);
 
-        assertNotNull("studentCreated should not be null", studentCreated);
-        assertNotNull("studentFound should not be null", studentFound);
+        assertNotNull(studentCreated, "studentCreated should not be null");
+        assertNotNull(studentFound, "studentFound should not be null");
 
-        assertNotNull("studentCreated id should not be null", studentCreated.getId());
-        assertNotNull("studentFound id should not be null", studentFound.getId());
-        assertEquals("studentCreated id should be equal to studentFound id", studentCreated.getId(),
-                studentFound.getId());
+        assertNotNull(studentCreated.getId(), "studentCreated id should not be null");
+        assertNotNull(studentFound.getId(), "studentFound id should not be null");
+        assertEquals(studentCreated.getId(),
+                studentFound.getId(),
+                "studentCreated id should be equal to studentFound id");
 
-        assertEquals("studentCreated firstname should be equal to 'John'", "John", studentCreated.getFirstname());
-        assertEquals("studentFound firstname should be equal to 'John'", "John", studentFound.getFirstname());
+        assertEquals("John", studentCreated.getFirstname(), "studentCreated firstname should be equal to 'John'");
+        assertEquals("John", studentFound.getFirstname(), "studentFound firstname should be equal to 'John'");
 
-        assertEquals("studentCreated lastname should be equal to 'Doe'", "Doe", studentCreated.getLastname());
-        assertEquals("studentFound lastname should be equal to 'Doe'", "Doe", studentFound.getLastname());
+        assertEquals("Doe", studentCreated.getLastname(), "studentCreated lastname should be equal to 'Doe'");
+        assertEquals("Doe", studentFound.getLastname(), "studentFound lastname should be equal to 'Doe'");
 
-        assertNotNull("studentCreated birthdate should not be null", studentCreated.getBirthdate());
-        assertNotNull("studentFound birthdate should not be null", studentFound.getBirthdate());
-        assertEquals("studentCreated birthdate should be equal to studentFound birthdate", studentCreated.getBirthdate(),
-                studentFound.getBirthdate());
+        assertNotNull(studentCreated.getBirthdate(), "studentCreated birthdate should not be null");
+        assertNotNull(studentFound.getBirthdate(), "studentFound birthdate should not be null");
+        assertEquals(studentCreated.getBirthdate(),
+                studentFound.getBirthdate(),
+                "studentCreated birthdate should be equal to studentFound birthdate");
 
-        assertEquals("studentCreated classroomId should be equal to '" + classroomId + "'", classroomId, studentCreated.getClassroomId());
-        assertEquals("studentFound classroomId should be equal to '" + classroomId + "'", classroomId, studentFound.getClassroomId());
+        assertEquals(classroomId, studentCreated.getClassroomId(), "studentCreated classroomId should be equal to '" + classroomId + "'");
+        assertEquals(classroomId, studentFound.getClassroomId(), "studentFound classroomId should be equal to '" + classroomId + "'");
 
-        assertEquals("studentCreated establishmentId should be equal to '" + establishmentId + "'", establishmentId, studentCreated.getEstablishmentId());
-        assertEquals("studentFound establishmentId should be equal to '" + establishmentId + "'", establishmentId,
-                studentFound.getEstablishmentId());
+        assertEquals(establishmentId, studentCreated.getEstablishmentId(), "studentCreated establishmentId should be equal to '" + establishmentId + "'");
+        assertEquals(establishmentId,
+                studentFound.getEstablishmentId(),
+                "studentFound establishmentId should be equal to '" + establishmentId + "'");
 
     }
 }

@@ -9,21 +9,20 @@ import fr.example.sample_open_rewrite.classroom.spi.exception.ClassroomEmptyExce
 import fr.example.sample_open_rewrite.classroom.spi.exception.ClassroomFullException;
 import fr.example.sample_open_rewrite.classroom.spi.exception.ClassroomNotFoundException;
 import fr.example.sample_open_rewrite.classroom.spi.exception.PlanningNotFoundException;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ClassroomServiceTest {
 
     @Mock
@@ -38,16 +37,18 @@ public class ClassroomServiceTest {
     @InjectMocks
     private ClassroomService classroomService;
 
-    @Test(expected = ClassroomFullException.class)
+    @Test
     public void testCreateClassroom_whenMaxClassroomsReached() {
-        UUID establishmentId = UUID.randomUUID();
-        Classroom classroom = Classroom.builder().establishmentId(establishmentId).name("Classroom A").build();
+        assertThrows(ClassroomFullException.class, () -> {
+            UUID establishmentId = UUID.randomUUID();
+            Classroom classroom = Classroom.builder().establishmentId(establishmentId).name("Classroom A").build();
 
-        doNothing().when(externalInterface).findEstablishmentById(eq(establishmentId));
-        when(classroomRepository.findByEstablishmentId(establishmentId)).thenReturn(Arrays.asList(new Classroom(), new Classroom()));
-        when(externalInterface.getMaxNumberOfClassroomByEstablishmentId(establishmentId)).thenReturn(2);
+            doNothing().when(externalInterface).findEstablishmentById(eq(establishmentId));
+            when(classroomRepository.findByEstablishmentId(establishmentId)).thenReturn(Arrays.asList(new Classroom(), new Classroom()));
+            when(externalInterface.getMaxNumberOfClassroomByEstablishmentId(establishmentId)).thenReturn(2);
 
-        classroomService.createClassroom(classroom);
+            classroomService.createClassroom(classroom);
+        });
     }
 
     @Test
@@ -64,22 +65,27 @@ public class ClassroomServiceTest {
 
         Classroom createdClassroom = classroomService.createClassroom(classroom);
 
-        assertNotNull("Create classroom should not be null", createdClassroom);
-        assertEquals("Classroom created id should be equal to '" + classroomtId + "'", classroomtId,
-                createdClassroom.getId());
-        assertEquals("Created Classroom establishment id should be equal to '" + establishmentId + "'", establishmentId,
-                createdClassroom.getEstablishmentId());
-        assertEquals("Created Classroom name should be equal to '" + classroomName + "'", classroomName,
-                createdClassroom.getName());
+        assertNotNull(createdClassroom, "Create classroom should not be null");
+        assertEquals(classroomtId,
+                createdClassroom.getId(),
+                "Classroom created id should be equal to '" + classroomtId + "'");
+        assertEquals(establishmentId,
+                createdClassroom.getEstablishmentId(),
+                "Created Classroom establishment id should be equal to '" + establishmentId + "'");
+        assertEquals(classroomName,
+                createdClassroom.getName(),
+                "Created Classroom name should be equal to '" + classroomName + "'");
     }
 
-    @Test(expected = ClassroomNotFoundException.class)
+    @Test
     public void testFindClassroomById_whenClassroomNotFound() {
-        UUID classroomId = UUID.randomUUID();
+        assertThrows(ClassroomNotFoundException.class, () -> {
+            UUID classroomId = UUID.randomUUID();
 
-        when(classroomRepository.findById(classroomId)).thenReturn(Optional.empty());
+            when(classroomRepository.findById(classroomId)).thenReturn(Optional.empty());
 
-        classroomService.findClassroomById(classroomId);
+            classroomService.findClassroomById(classroomId);
+        });
     }
 
     @Test
@@ -111,14 +117,16 @@ public class ClassroomServiceTest {
         assertEquals(planningId, addedPlanning.getId());
     }
 
-    @Test(expected = ClassroomEmptyException.class)
+    @Test
     public void testFindAllPlanningsByClassroomId_whenNoPlannings() {
-        UUID classroomId = UUID.randomUUID();
+        assertThrows(ClassroomEmptyException.class, () -> {
+            UUID classroomId = UUID.randomUUID();
 
-        when(classroomRepository.findById(classroomId)).thenReturn(Optional.of(new Classroom()));
-        when(planningRepository.findAllByClassroomId(classroomId)).thenReturn(Collections.emptyList());
+            when(classroomRepository.findById(classroomId)).thenReturn(Optional.of(new Classroom()));
+            when(planningRepository.findAllByClassroomId(classroomId)).thenReturn(Collections.emptyList());
 
-        classroomService.findAllPlanningsByClassroomId(classroomId);
+            classroomService.findAllPlanningsByClassroomId(classroomId);
+        });
     }
 
     @Test
@@ -146,13 +154,15 @@ public class ClassroomServiceTest {
         assertEquals(2, result.size());
     }
 
-    @Test(expected = ClassroomNotFoundException.class)
+    @Test
     public void testFindByEstablishmentId_whenNoClassrooms() {
-        UUID establishmentId = UUID.randomUUID();
+        assertThrows(ClassroomNotFoundException.class, () -> {
+            UUID establishmentId = UUID.randomUUID();
 
-        when(classroomRepository.findByEstablishmentId(establishmentId)).thenReturn(Collections.emptyList());
+            when(classroomRepository.findByEstablishmentId(establishmentId)).thenReturn(Collections.emptyList());
 
-        classroomService.findByEstablishmentId(establishmentId);
+            classroomService.findByEstablishmentId(establishmentId);
+        });
     }
 
     @Test
@@ -169,15 +179,17 @@ public class ClassroomServiceTest {
         assertNotNull(result);
     }
 
-    @Test(expected = PlanningNotFoundException.class)
+    @Test
     public void testFindPlanningById_whenNotFound() {
-        UUID classroomId = UUID.randomUUID();
-        UUID planningId = UUID.randomUUID();
+        assertThrows(PlanningNotFoundException.class, () -> {
+            UUID classroomId = UUID.randomUUID();
+            UUID planningId = UUID.randomUUID();
 
-        when(classroomRepository.findById(classroomId)).thenReturn(Optional.of(new Classroom()));
-        when(planningRepository.findById(planningId)).thenReturn(Optional.empty());
+            when(classroomRepository.findById(classroomId)).thenReturn(Optional.of(new Classroom()));
+            when(planningRepository.findById(planningId)).thenReturn(Optional.empty());
 
-        classroomService.findPlanningById(classroomId, planningId);
+            classroomService.findPlanningById(classroomId, planningId);
+        });
     }
 
 }

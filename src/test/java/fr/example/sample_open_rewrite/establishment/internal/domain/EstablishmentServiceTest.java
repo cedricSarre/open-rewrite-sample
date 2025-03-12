@@ -6,23 +6,23 @@ import fr.example.sample_open_rewrite.establishment.internal.entity.Establishmen
 import fr.example.sample_open_rewrite.establishment.internal.repository.ActivityRepository;
 import fr.example.sample_open_rewrite.establishment.internal.repository.EmployeeRepository;
 import fr.example.sample_open_rewrite.establishment.internal.repository.EstablishmentRepository;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class EstablishmentServiceTest {
 
     @Mock

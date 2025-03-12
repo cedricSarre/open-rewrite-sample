@@ -2,7 +2,7 @@ package fr.example.sample_open_rewrite.student.internal.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;

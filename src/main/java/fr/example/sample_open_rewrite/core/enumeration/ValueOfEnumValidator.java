@@ -1,7 +1,7 @@
 package fr.example.sample_open_rewrite.core.enumeration;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
