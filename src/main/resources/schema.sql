@@ -17,9 +17,9 @@ CREATE TABLE planning
 (
     id                      UUID    NOT NULL,
     classroom_id            UUID    NOT NULL,
-    "day"                   varchar NOT NULL,
-    begin_hour              varchar NOT NULL,
-    end_hour                varchar NOT NULL,
+    "day"                   smallint NOT NULL,
+    begin_hour              smallint NOT NULL,
+    end_hour                smallint NOT NULL,
     subject                 varchar NOT NULL,
     teacher_id              UUID    NOT NULL,
     location                varchar NOT NULL,
