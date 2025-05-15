@@ -165,6 +165,7 @@
                         <recipe>org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_3</recipe>
                         <recipe>org.openrewrite.java.testing.mockito.Mockito1to5Migration</recipe>
                         <recipe>AddSpringVirtualThreadsProperty</recipe>
+                        <recipe>fr.example.recipe.AddTestTagRecipe</recipe>
                     </activeRecipes>
                     <failOnDryRunResults>true</failOnDryRunResults>
                 </configuration>
@@ -180,9 +181,14 @@
                         <version>3.5.0</version>
                     </dependency>
                     <dependency>
-                        <groupId>org.openrewrite.recipe</groupId>
-                        <artifactId>rewrite-testing-frameworks</artifactId>
-                        <version>3.5.1</version>
+                        <groupId>fr.example</groupId>
+                        <artifactId>add-test-tag-open-rewrite-recipe</artifactId>
+                        <version>1.0.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-api</artifactId>
+                        <version>5.10.5</version>
                     </dependency>
                 </dependencies>
             </plugin>
