@@ -1,0 +1,7 @@
+type: specs.openrewrite.org/v1beta/recipe
+name: AddSpringVirtualThreadsProperty
+displayName: Add `spring.threads.virtual.enabled=true` property to the application.yml/properties file
+recipeList:
+  - org.openrewrite.java.spring.AddSpringProperty:
+      property: spring.threads.virtual.enabled
+      value: "true"

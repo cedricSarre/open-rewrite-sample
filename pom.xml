@@ -158,13 +158,13 @@
                 <artifactId>rewrite-maven-plugin</artifactId>
                 <version>6.4.0</version>
                 <configuration>
-                    <exportDatatables>true</exportDatatables>
+                    <configLocation>.rewrite/add-virtual-threads-spring-property.yml</configLocation>
                     <activeRecipes>
                         <recipe>org.openrewrite.java.migrate.UpgradeToJava21</recipe>
                         <recipe>org.openrewrite.java.spring.boot3.SpringBootProperties_3_3</recipe>
                         <recipe>org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_3</recipe>
                         <recipe>org.openrewrite.java.testing.mockito.Mockito1to5Migration</recipe>
-                        <recipe>org.openrewrite.java.spring.AddSpringProperty</recipe>-->
+                        <recipe>AddSpringVirtualThreadsProperty</recipe>
                     </activeRecipes>
                     <failOnDryRunResults>true</failOnDryRunResults>
                 </configuration>
