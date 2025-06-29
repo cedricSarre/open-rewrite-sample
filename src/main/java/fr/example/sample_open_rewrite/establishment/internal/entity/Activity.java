@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
-import static javax.persistence.FetchType.LAZY;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Getter
 @Setter
