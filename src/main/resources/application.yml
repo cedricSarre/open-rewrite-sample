@@ -17,9 +17,9 @@ spring:
     init:
       mode: ALWAYS
       continue-on-error: true
+  threads:
+    virtual:
+      enabled: true
 # https://docs.openrewrite.org/recipes/java/spring/boot3/springbootproperties_3_0
 management:
-  metrics:
-    export:
-      prometheus:
-        enabled: false
+  prometheus.metrics.export.enabled: false

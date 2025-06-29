@@ -2,10 +2,10 @@ package fr.example.sample_open_rewrite.classroom.internal.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.UUID;
 
-import static javax.persistence.FetchType.LAZY;
+import static jakarta.persistence.FetchType.LAZY;
 
 
 @Getter

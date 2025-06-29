@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 import java.util.UUID;
 
 @Builder(toBuilder = true)
